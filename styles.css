@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
 
-@media only screen and (max-width: 1200px) {  
+@media only screen and (max-width: 1300px) {  
     .desktop {
       display: none;
      }
     }
-@media only screen and (min-width: 1200px) {  
+@media only screen and (min-width: 1300px) {  
     .mobile {
         display: none;
         }
@@ -83,7 +83,6 @@ button:hover {
     background-color: rgba(0,136,169,0.8);
 }
 
-
 .intro {
     display: flex;
     flex-direction: column;
@@ -116,9 +115,9 @@ footer {
     color: white;
     text-align: center;
     padding-bottom: 10px;
-  }
+}
 
-  input {
+input {
     color: white;
     margin-top: 5px;
-  }
+}
