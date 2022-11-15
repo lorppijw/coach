@@ -41,7 +41,7 @@ body {
     margin-bottom: 50px;
 }
 
-li, a, button, h1, h2, footer, p {
+li, a, button, h1, h2, h3, h4 footer, p {
     font-family: "Montserrat", sans-serif;
     font-weight: 500;
     font-size: 16px;
@@ -60,6 +60,13 @@ h2 {
     text-align: center;
     padding-top: 50px;
     padding-bottom: 0px;
+}
+
+h3 {
+    font-size: 24px;
+    text-align: center;
+    padding-bottom: 0px;
+    padding-top: 10px;
 }
 
 header {
