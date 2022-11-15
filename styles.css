@@ -2,8 +2,8 @@
 
 @media only screen and (max-width: 1300px) {  
     .desktop {
-      display: none;
-     }
+        display: none;
+        }
     }
 @media only screen and (min-width: 1300px) {  
     .mobile {
@@ -16,6 +16,10 @@
     margin: 0;
     padding: 0;
     background-color: #24252A;
+}
+
+body {
+    margin-bottom: 50px;
 }
 
 li, a, button, h1, h2, footer, p {
