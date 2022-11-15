@@ -1,14 +1,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
 
-@media only screen and (max-width: 1300px) {  
-    .desktop {
-        display: none;
+@media only screen and (max-width: 1100px) {  
+    .lajit {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        
+    }
+    .laji {
+        margin-left: 10%;
+        max-width: 80%;
+        min-width: 80%;
         }
     }
-@media only screen and (min-width: 1300px) {  
-    .mobile {
+    .nav__links{
         display: none;
+    }
+
+@media only screen and (min-width: 1100px) {  
+    .lajit {
+        display: block;
+        width: 90%;
+        margin-left: 10%;
+    }
+    .laji {
+        width: 30%;
+        height: 30vh;
+        padding: 10px;
         }
+    }
+    .nav__links{
+        display: initial;
     }
 
 * {
@@ -53,6 +75,7 @@ header {
 .logo {
     cursor: pointer;
     margin-right: auto;
+    max-width: 40%;
 }
 
 .nav__links {
@@ -99,17 +122,13 @@ button:hover {
 }
 
 .lajit {
-    display: block;
-    width: 90%;
-    margin-left: 10%;
 }
 
-.laji {
-    width: 30%;
-    padding: 10px;
-    height: 30vh;
+ .laji {
+    padding: 5px;
+    list-style-type: none;
     
-}
+} 
 
 footer {
     position: fixed;
