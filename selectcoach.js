@@ -24,14 +24,14 @@ function setGolf(){
 function setViolin(){
     resetAll();
     pt.style.border = "2px solid white"
-    pt.style.borderRadius = "10px"
+    pt.style.borderRadius = "5px"
     selection = "violin"
 }
 
 function setFootball(){
     resetAll();
     tate.style.border = "2px solid white"
-    tate.style.borderRadius = "10px"
+    tate.style.borderRadius = "5px"
     selection = "football"
 }
 
