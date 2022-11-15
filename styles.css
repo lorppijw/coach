@@ -67,12 +67,13 @@ header {
     justify-content: flex-end;
     align-items: center;
     padding: 30px 10%;
+    border: 5px solid white;
 }
 
 .logo {
     cursor: pointer;
     margin-right: auto;
-    max-width: 40%;
+    max-width: 80%;
 }
 
 .nav__links {
