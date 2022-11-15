@@ -118,13 +118,10 @@ button:hover {
     padding: 12px 30px;
 }
 
-.lajit {
-}
-
  .laji {
     padding: 5px;
     list-style-type: none;
-    
+    cursor: pointer;
 } 
 
 footer {
