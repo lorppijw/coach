@@ -28,3 +28,8 @@ WHERE age = '22'
 
 ORDER BY id ASC
 LIMIT 100;
+
+-- @block
+SELECT passwd FROM Users
+WHERE username = 'lorppi'
+;
