@@ -1,13 +1,37 @@
 const express = require('express')
 const app = express()
 const bcrypt = require('bcrypt')
+const mysql = require('mysql')
 
 app.use(express.json())
 
+//create connection
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'topikissa000',
+    database: 'users'
+});
+
+//connect
+db.connect((err) => {
+    if(err) {
+        throw err;
+    }
+    console.log('mysql connected');
+})
+
 const users = []
 
-app.get('/users', (req, res) => {
-    res.json(users)
+app.post('/usersb', (req, res) => {
+    let passwd = "";
+
+    let sql = `SELECT passwd FROM Users WHERE username = '${req.body.username}';`
+    let query = db.query(sql, (err, result) => {
+        if(err) throw err;
+        passwd = result[0].passwd
+        res.status(201);
+    })
 })
 
 app.post('/users', async (req, res) => {
@@ -25,12 +49,23 @@ app.post('/users', async (req, res) => {
 })
 
 app.post('/users/login', async (req, res) => {
-    const user = users.find(user => user.username == req.body.username)
-    if(user == null) {
-        return res.status(400).send('Cannot find user')
-    }
+    // const user = users.find(user => user.username == req.body.username)
+
+    let passwd = "";
+
+    let sql = `SELECT passwd FROM Users WHERE username = '${req.body.username}';`
+    let query = db.query(sql, (err, result) => {
+        if(err) throw err;
+        passwd = result[0].passwd
+        res.status(201);
+    })
+
+    // if(user == null) {
+    //     return res.status(400).send('Cannot find user')
+    // }
     try {
-        if(await bcrypt.compare(req.body.passwd, user.passwd)) {
+        //fix
+        if(await bcrypt.compare(req.body.passwd, passwd)) {
             res.send('Success')
         } else {
             res.send('Not allowed')
