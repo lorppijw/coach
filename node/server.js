@@ -34,12 +34,26 @@ app.post('/usersb', (req, res) => {
     })
 })
 
-app.post('/users', async (req, res) => {
+app.post('/register', async (req, res) => {
     try {
+
         const hashedPassword = await bcrypt.hash(req.body.passwd, 10)
-        const user = { username: req.body.username, passwd: hashedPassword, 
-        email: req.body.email, phoneNumber: req.body.phoneNumber,
-        age: req.body.age, sport: req.body.sport}
+
+        let sql = `INSERT INTO users (username, passwd, email, phoneNumber, age, sport)
+        VALUES (
+            '${req.body.username}',
+            '${hashedPassword}',
+            '${req.body.email}',
+            '${req.body.phoneNumber}',
+            '${req.body.age}',
+            '${req.body.sport}'
+        )`
+        let query = db.query(sql, (err, result) => {
+        if(err) throw err;
+        res.status(201);
+    })
+        
+
         res.status(201).send()
         users.push(user)
         console.log(user)
@@ -56,7 +70,9 @@ app.post('/users/login', async (req, res) => {
     let sql = `SELECT passwd FROM Users WHERE username = '${req.body.username}';`
     let query = db.query(sql, (err, result) => {
         if(err) throw err;
+        console.log(result)
         passwd = result[0].passwd
+        console.log(passwd)
         res.status(201);
     })
 
@@ -64,7 +80,9 @@ app.post('/users/login', async (req, res) => {
     //     return res.status(400).send('Cannot find user')
     // }
     try {
-        //fix
+        //wait for sql query to finish before...
+        console.log("req.passwd = " + req.body.passwd)
+        console.log("passwd = "+ passwd)
         if(await bcrypt.compare(req.body.passwd, passwd)) {
             res.send('Success')
         } else {
