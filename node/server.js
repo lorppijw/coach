@@ -62,35 +62,37 @@ app.post('/register', async (req, res) => {
     }
 })
 
-app.post('/users/login', async (req, res) => {
-    // const user = users.find(user => user.username == req.body.username)
-
-    let passwd = "";
-
-    let sql = `SELECT passwd FROM Users WHERE username = '${req.body.username}';`
-    let query = db.query(sql, (err, result) => {
-        if(err) throw err;
-        console.log(result)
-        passwd = result[0].passwd
-        console.log(passwd)
-        res.status(201);
-    })
-
-    // if(user == null) {
-    //     return res.status(400).send('Cannot find user')
-    // }
+async function checkPassword(plain, salted, success){
     try {
-        //wait for sql query to finish before...
-        console.log("req.passwd = " + req.body.passwd)
-        console.log("passwd = "+ passwd)
-        if(await bcrypt.compare(req.body.passwd, passwd)) {
-            res.send('Success')
+        if(await bcrypt.compare(plain, salted)) {
+            console.log('Success')
+            success = true;
         } else {
-            res.send('Not allowed')
+            console.log('Not allowed')
         }
     } catch {
         res.status(500).send()
     }
+}
+
+app.post('/users/login', (req, res) => {
+    // const user = users.find(user => user.username == req.body.username)
+
+    let passwd = "";
+    let success = false;
+    let sql = `SELECT passwd FROM Users WHERE username = '${req.body.username}';`
+    let query = db.query(sql, (err, result) => {
+        if(err) throw err;
+        passwd = result[0].passwd
+        res.status(201);
+        checkPassword(req.body.passwd, passwd, success)
+    })
+    
+    console.log(success)
+
+    // if(user == null) {
+    //     return res.status(400).send('Cannot find user')
+    // }
 })
 
 app.listen(3000)
