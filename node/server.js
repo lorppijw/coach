@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const bcrypt = require('bcrypt')
-const mysql = require('mysql')
+const mysql = require('mysql2')
 
 app.use(express.json())
 
@@ -62,37 +62,30 @@ app.post('/register', async (req, res) => {
     }
 })
 
-async function checkPassword(plain, salted, success){
-    try {
-        if(await bcrypt.compare(plain, salted)) {
-            console.log('Success')
-            success = true;
-        } else {
-            console.log('Not allowed')
-        }
-    } catch {
-        res.status(500).send()
-    }
-}
 
-app.post('/users/login', (req, res) => {
-    // const user = users.find(user => user.username == req.body.username)
+app.post('/users/login', async (req, res) => {
 
     let passwd = "";
     let success = false;
-    let sql = `SELECT passwd FROM Users WHERE username = '${req.body.username}';`
-    let query = db.query(sql, (err, result) => {
-        if(err) throw err;
-        passwd = result[0].passwd
-        res.status(201);
-        checkPassword(req.body.passwd, passwd, success)
-    })
-    
-    console.log(success)
+    await db.promise().query(`SELECT * FROM Users WHERE username = '${req.body.username}';`)
+    .then(async resp => {
+        salted = resp[0][0].passwd
+        phone = resp[0][0].phoneNumber
+        age = resp[0][0].age
+        id = resp[0][0].id
+        sport = resp[0][0].sport
+        try {
+            if(await bcrypt.compare(req.body.passwd, salted)) {
+                res.status(201).send('Login successful \nUserdata:\n' + phone + '\n' + 
+                age + '\n' + id + '\n' + sport )
+            } else {
+                res.status(403).send('Login failed')
+            }
+        } catch {
+            res.status(500).send()
+        }
+    }).catch(console.log)
 
-    // if(user == null) {
-    //     return res.status(400).send('Cannot find user')
-    // }
 })
 
 app.listen(3000)
