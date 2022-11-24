@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CoachCoach</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="login.js"></script>
 </head>
 
 <body>
@@ -31,17 +32,17 @@
 
     <section class="intro">
 
-            <nav>
+            <form action="http://localhost:3000/users/login" method="POST">
                 <p>Käyttäjänimi / sähköposti</p>
-                <input>
+                <input type="text" name="username">
                 <br>
                 <br>
                 <p>Salasana</p>
-                <input>
+                <input type="text" name="passwd">
                 <br>
                 <br>
-                <a class="cta" href="#"><button onclick="alert('toteutus kesken')">Kirjaudu sisään</button></a>
-            </nav>
+                <button type="submit" id="loginButton">Kirjaudu sisään</button></a>
+            </form>
     </section>
 
     <footer>
