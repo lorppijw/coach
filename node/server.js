@@ -2,9 +2,10 @@ const express = require('express')
 const app = express()
 const bcrypt = require('bcrypt')
 const mysql = require('mysql2')
+const bodyParser = require('body-parser')
 
 app.use(express.json())
-
+app.use(express.urlencoded({ extended: false }))
 //create connection
 const db = mysql.createConnection({
     host: 'localhost',
@@ -70,21 +71,29 @@ app.post('/users/login', async (req, res) => {
     await db.promise().query(`SELECT * FROM Users WHERE username = '${req.body.username}';`)
     .then(async resp => {
         salted = resp[0][0].passwd
-        phone = resp[0][0].phoneNumber
-        age = resp[0][0].age
-        id = resp[0][0].id
-        sport = resp[0][0].sport
+
+        let userInfo = {
+        phone : resp[0][0].phoneNumber,
+        age : resp[0][0].age,
+        id : resp[0][0].id,
+        sport : resp[0][0].sport
+        }
+
         try {
             if(await bcrypt.compare(req.body.passwd, salted)) {
-                res.status(201).send('Login successful \nUserdata:\n' + phone + '\n' + 
-                age + '\n' + id + '\n' + sport )
+                //send user info as json object?
+                res.set('Content-Type', 'text/html')
+                res.send(Buffer.from(`<body style="text-align: center; margin="0";><h3>Tervetuloa ${req.body.username}<br>Tiedot </h3><p>Puhelinnumero: ${userInfo.phone}</p><br><p>Ikä: ${userInfo.age}</p></body>`))
             } else {
                 res.status(403).send('Login failed')
             }
         } catch {
-            res.status(500).send()
+            res.status(500).send("ok")
         }
-    }).catch(console.log)
+    }).catch((err) => {
+        console.log(err);
+        res.status(500).send('Login failed: user not found')
+    })
 
 })
 
