@@ -7,10 +7,10 @@ POST http://localhost:3000/register
 Content-Type: application/json
 
 {
-    "username": "tester",
-    "passwd": "mamba",
-    "email": "mamba@tester.com",
-    "phoneNumber": "0405091111",
+    "username": "jaa",
+    "passwd": "jeaa",
+    "email": "mamba@tefa.afa",
+    "phoneNumber": "040509332",
     "age": "21",
     "sport": "football"
 }

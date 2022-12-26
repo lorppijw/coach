@@ -10,6 +10,12 @@ CREATE TABLE Users(
     sport VARCHAR(255) NOT NULL
 );
 
+
+CREATE DATABASE users;
+
+USE users;
+
+
 -- @block
 INSERT INTO users (username, passwd, email, phoneNumber, age, sport)
 VALUES (
@@ -19,7 +25,7 @@ VALUES (
     '0445091101',
     '22',
     'football'
-)
+);
 
 -- @block
 SELECT username, id FROM Users

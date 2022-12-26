@@ -1,28 +1,21 @@
 const express = require('express')
 const app = express()
 const bcrypt = require('bcrypt')
-const mysql = require('mysql2')
+const mysql = require('mysql2/promise')
 const bodyParser = require('body-parser')
+require("dotenv").config();
 
+app.set('view engine', 'ejs')
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 //create connection
-const db = mysql.createConnection({
+const db = mysql.createPool({
     host: 'localhost',
     user: 'root',
-    password: 'topikissa000',
+    password: process.env.pass,
     database: 'users'
 });
 
-//connect
-db.connect((err) => {
-    if(err) {
-        throw err;
-    }
-    console.log('mysql connected');
-})
-
-const users = []
 
 app.post('/usersb', (req, res) => {
     let passwd = "";
@@ -40,25 +33,23 @@ app.post('/register', async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(req.body.passwd, 10)
 
-        let sql = `INSERT INTO users (username, passwd, email, phoneNumber, age, sport)
-        VALUES (
-            '${req.body.username}',
-            '${hashedPassword}',
-            '${req.body.email}',
-            '${req.body.phoneNumber}',
-            '${req.body.age}',
-            '${req.body.sport}'
-        )`
-        let query = db.query(sql, (err, result) => {
-        if(err) throw err;
-        res.status(201);
-    })
-        
-
+        const connection = await db.getConnection();
+        const query = 'INSERT INTO users (username, passwd, email, phoneNumber, age, sport) VALUES (?, ?, ?, ?, ?, ?)';
+        try {
+        const [results] = await db.execute(query, [req.body.username, hashedPassword, req.body.email, req.body.phoneNumber, req.body.age, req.body.sport]);
+        // Success!
+        } catch (err) {
+        if (err.code === 'ER_DUP_ENTRY') {
+            console.log('Duplicate entry')
+            // Handle duplicate entry error here
+        } else {
+            console.log(err)
+            // Handle other errors here
+        }
+        }
         res.status(201).send()
-        users.push(user)
-        console.log(user)
-    } catch {
+    } catch (err){
+        console.log(err);
         res.status(500).send()
     }
 })
@@ -72,7 +63,7 @@ app.post('/users/login', async (req, res) => {
     .then(async resp => {
         salted = resp[0][0].passwd
 
-        let userInfo = {
+        const user = {
         phone : resp[0][0].phoneNumber,
         age : resp[0][0].age,
         id : resp[0][0].id,
@@ -81,9 +72,7 @@ app.post('/users/login', async (req, res) => {
 
         try {
             if(await bcrypt.compare(req.body.passwd, salted)) {
-                //send user info as json object?
-                res.set('Content-Type', 'text/html')
-                res.send(Buffer.from(`<body style="text-align: center; margin="0";><h3>Tervetuloa ${req.body.username}<br>Tiedot </h3><p>Puhelinnumero: ${userInfo.phone}</p><br><p>Ikä: ${userInfo.age}</p></body>`))
+                res.render('profile', {user: user})
             } else {
                 res.status(403).send('Login failed')
             }
