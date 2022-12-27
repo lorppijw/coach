@@ -8,11 +8,12 @@ require("dotenv").config();
 app.set('view engine', 'ejs')
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+app.use(express.static('public'));
 //create connection
 const db = mysql.createPool({
     host: 'localhost',
     user: 'root',
-    password: process.env.pass,
+    password: process.env.PASS,
     database: 'users'
 });
 
@@ -32,7 +33,6 @@ app.post('/register', async (req, res) => {
     try {
 
         const hashedPassword = await bcrypt.hash(req.body.passwd, 10)
-
         const connection = await db.getConnection();
         const query = 'INSERT INTO users (username, passwd, email, phoneNumber, age, sport) VALUES (?, ?, ?, ?, ?, ?)';
         try {
@@ -47,10 +47,17 @@ app.post('/register', async (req, res) => {
             // Handle other errors here
         }
         }
-        res.status(201).send()
+        const user = {
+            username : req.body.username,
+            email : req.body.email,
+            phoneNumber : req.body.phoneNumber,
+            age : req.body.age,
+            sport : req.body.sport
+        }
+        res.render('selectcoach', {user: user});
     } catch (err){
         console.log(err);
-        res.status(500).send()
+        res.send(`<script>alert('Käyttäjänimi tai sähköposti on jo olemassa!')</script>`)
     }
 })
 
@@ -59,11 +66,12 @@ app.post('/users/login', async (req, res) => {
 
     let passwd = "";
     let success = false;
-    await db.promise().query(`SELECT * FROM Users WHERE username = '${req.body.username}';`)
+    await db.query(`SELECT * FROM Users WHERE username = '${req.body.username}';`)
     .then(async resp => {
         salted = resp[0][0].passwd
 
         const user = {
+        name : resp[0][0].username,
         phone : resp[0][0].phoneNumber,
         age : resp[0][0].age,
         id : resp[0][0].id,

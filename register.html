@@ -25,25 +25,7 @@
         <a class="cta" href="login.html"><button>Kirjaudu</button></a>
     </header>
 
-    <section class="intro">
-        <h1>Rekisteröidy</h1>
-        <br>
-    </section>
-
-    <section class="intro">
-        <p>Käyttäjänimi</p>
-        <input>
-        <br>
-        <p>Sähköposti</p>
-        <input>
-        <br>
-        <p>Puhelinnumero</p>
-        <input>
-        <br>
-        <p>Ikä</p>
-        <input>
-        <br>
-        <h2 style="padding-top: 0px;">Valitse laji</h1>
+    <h2 style="padding-top: 0px;">Valitse laji</h1>
         <br>
         <section class="lajit">
 
@@ -54,14 +36,44 @@
             </nav>
             <br>
         </section>
-        <a class="cta" href="selectcoach.html"><button id="regButton">Valmentajan valintaan</button></a>
+
+    
+
+    <section class="intro">
+        <form action="http://localhost:3000/register" method="POST">
+
+        <p>Käyttäjänimi</p>
+        <input name="username">
+        <br>
+
+        <p>Sähköposti</p>
+        <input name="email">
+        <br>
+
+        <p>Salasana</p>
+        <input type="password" name="passwd">
+        <br>
+
+        <p>Puhelinnumero</p>
+        <input name="phoneNumber">
+        <br>
+        
+        <p>Ikä</p>
+        <input name="age">
+        <br>
+
+        <input type="hidden" id="sport" name="sport">
+        <button id="regButton" type="submit">Valmentajan valintaan</button></a>
+
+     </form>
+        
+
+    
     </section>
 
     
 
-    <footer>
-        <p>CoachCoach Oyj Ab Ltd | Y-Tunnus: 609609-7</p>
-    </footer>
+    <footer>CoachCoach Oyj Ab Ltd | Y-Tunnus: 609609-7</footer>
 </body>
 
 </html>
