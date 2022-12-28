@@ -3,12 +3,30 @@ const app = express()
 const bcrypt = require('bcrypt')
 const mysql = require('mysql2/promise')
 const bodyParser = require('body-parser')
+const session = require('express-session')
+const passport = require('passport')
+const local = require('./strategies/local')
+const store = new session.MemoryStore();
+const authRoute = require('./routes/auth')
+
+app.use(session({
+    secret: 'abcd',
+    cookie: { maxAge: 60000 },
+    saveUninitialized: false,
+    store
+}));
+
 require("dotenv").config();
 
 app.set('view engine', 'ejs')
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(express.static('public'));
+
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 //create connection
 const db = mysql.createPool({
     host: 'localhost',
@@ -42,13 +60,14 @@ app.post('/register', async (req, res) => {
         if (err.code === 'ER_DUP_ENTRY') {
             console.log('Duplicate entry')
             // Handle duplicate entry error here
+            res.send(`<script>alert('Käyttäjänimi tai sähköposti on jo olemassa!')</script>`)
         } else {
             console.log(err)
             // Handle other errors here
         }
         }
         const user = {
-            username : req.body.username,
+            name : req.body.username,
             email : req.body.email,
             phoneNumber : req.body.phoneNumber,
             age : req.body.age,
@@ -57,7 +76,7 @@ app.post('/register', async (req, res) => {
         res.render('selectcoach', {user: user});
     } catch (err){
         console.log(err);
-        res.send(`<script>alert('Käyttäjänimi tai sähköposti on jo olemassa!')</script>`)
+        res.status(500).send("Server error<br>" + err)
     }
 })
 
@@ -93,6 +112,20 @@ app.post('/users/login', async (req, res) => {
     })
 
 })
+
+app.get('/', async (req, res) => {
+    if(req.user){
+        const connection = await db.getConnection();
+        const [results] = await db.query(`SELECT * FROM Users WHERE username = '${req.user.username}';`)
+        res.status(200).send(results)
+    } else {
+        res.status(403).send('not authenticated')
+    }
+  
+
+})
+
+app.use('/auth', authRoute);
 
 app.listen(3000)
 

@@ -10,7 +10,7 @@ Content-Type: application/json
     "username": "jaa",
     "passwd": "jeaa",
     "email": "mamba@tefa.afa",
-    "phoneNumber": "040509332",
+    "phoneNumber": "0405093ko32",
     "age": "21",
     "sport": "football"
 }
@@ -24,4 +24,22 @@ Content-Type: application/json
 {
     "username": "tester",
     "passwd": "mamba"
+}
+###
+
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "username": "tester",
+    "password": "mamba"
+}
+
+###
+GET http://localhost:3000/
+Content-Type: application/json
+
+{
+    "username": "tester",
+    "password": "mamba"
 }
