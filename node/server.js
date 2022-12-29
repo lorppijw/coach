@@ -5,7 +5,6 @@ const mysql = require('mysql2/promise')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const passport = require('passport')
-const morgan = require('morgan')
 const local = require('./strategies/local')
 // const store = new session.MemoryStore();
 const authRoute = require('./routes/auth')
@@ -26,7 +25,6 @@ app.set('view engine', 'ejs')
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(express.static('public'));
-app.use(morgan('combined'))
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -102,9 +100,14 @@ app.get('/login', (req, res) => {
     }
 })
 
-app.get('/test', (req, res) => {
-    console.log('tet');
-    res.send('moro');
+app.get('/logout', (req, res) => {
+    req.logout((err) => {
+        if(err) {
+            console.log(err);
+        } else {
+            res.redirect('/');
+        }
+    });
 })
 
 app.use('/auth', authRoute);

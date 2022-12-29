@@ -40,7 +40,6 @@ passport.use(new LocalStrategy(
             } else {
                 if(await bcrypt.compare(password, result[0].passwd)) {
                     done(null, result[0]);
-                    console.log('successful')
                 } else {
                     done(null, false);
                 }

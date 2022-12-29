@@ -6,7 +6,7 @@
     .lajit {
         display: flex;
         flex-direction: column;
-        align-items: center;
+        /* align-items: center; */
         
     }
     .laji {
@@ -22,9 +22,7 @@
 @media only screen and (min-width: 1100px) {  
     .lajit {
         display: flex;
-        flex-direction: row;
-        justify-content: space-evenly;
-        width: 100%;
+        position: relative;
     }
     .laji {
         width: 30%;
@@ -47,6 +45,67 @@ body {
     background-color: #24252A;
 
 }
+
+.lajit .sidebar {
+    position: fixed;
+    width: 20%;
+    height: 100%;
+    background: #4b4276;
+    padding: 30px 0;
+}
+
+.lajit .sidebar h2 {
+    color: #fff;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.lajit .sidebar ul li {
+    padding: 15px;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.lajit .sidebar ul li a {
+    color: #bdb8d7;
+    display: block;
+
+}
+
+.lajit .sidebar ul li a .fas {
+    width: 25px;
+}
+
+.lajit .sidebar ul li:hover {
+    background: #594f8d;
+}
+
+.lajit .sidebar ul li:hover a {
+    color: #fff;
+}
+
+.lajit .main_content {
+    display: flex;
+    justify-content: space-around;
+    flex: 1;
+    margin-left: 20%;
+}
+
+.lajit .laji {
+    justify-content: space-between;
+    border: 1px solid white;
+}
+.new_flex_container {
+    display: flex;
+    position: absolute;
+    top: calc(100% + 20px);
+    background:rgb(7, 96, 118);
+    width: 77.5%;
+    justify-content: center;
+    border: 1px solid white;
+    padding: 30px 0px;
+  }
 
 li, a, button, h1, h2, h3, h4 footer, p {
     font-family: "Montserrat", sans-serif;
@@ -135,7 +194,6 @@ button:hover {
  .laji {
     padding: 5px;
     list-style-type: none;
-    cursor: pointer;
 } 
 
 footer {
