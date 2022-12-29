@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
 
+
+
 @media only screen and (max-width: 1100px) {  
     .lajit {
         display: flex;
@@ -19,14 +21,18 @@
 
 @media only screen and (min-width: 1100px) {  
     .lajit {
-        display: block;
-        width: 90%;
-        margin-left: 10%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        width: 100%;
     }
     .laji {
         width: 30%;
-        height: 30vh;
         padding: 10px;
+        text-align: center;
+        background-color: rgba(0,136,169,1);
+        border: 5px solid rgb(7, 96, 118);
+        border-radius: 3px;
         }
     }
 
@@ -34,11 +40,12 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    background-color: #24252A;
 }
 
 body {
     margin-bottom: 50px;
+    background-color: #24252A;
+
 }
 
 li, a, button, h1, h2, h3, h4 footer, p {

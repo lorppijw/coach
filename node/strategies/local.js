@@ -12,7 +12,7 @@ const db = mysql.createPool({
     database: 'users'
 });
 
-passport.serializeUser((user, done) => {
+passport.serializeUser(async (user, done) => {
     done(null, user.username);
 })
 
@@ -20,6 +20,7 @@ passport.deserializeUser(async (username, done) => {
     try {
         const connection = await db.getConnection();
         const [result] = await db.query(`SELECT * FROM Users WHERE username = '${username}';`)
+        connection.release();
         if(result[0]) {
             done(null, result[0]);
         }
@@ -33,7 +34,7 @@ passport.use(new LocalStrategy(
         try {
             const connection = await db.getConnection();
             const [result] = await db.query(`SELECT * FROM Users WHERE username = '${username}';`)
-            console.log(result);
+            connection.release();
             if(result[0].length === 0){
                 done(null, false);
             } else {

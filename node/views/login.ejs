@@ -12,8 +12,8 @@
 
 <body>
     <header>
-        <a style="margin-right: auto;" href="index.html">
-            <img class="logo" src="images/logo.png" alt="logo">
+        <a style="margin-right: auto;" href="http://localhost:5500/index.html">
+            <img class="logo" src="./logo.png" alt="logo">
         </a>
         <nav>
             <ul class="nav__links">
@@ -30,18 +30,15 @@
         <br>
     </section>
 
-
-    <!-- TODO: auto login if session exists -->
-
     <section class="intro">
 
             <form action="http://localhost:3000/auth/login" method="POST">
                 <p>Käyttäjänimi / sähköposti</p>
-                <input type="text" name="username">
+                <input type="text" style="color:black;" name="username">
                 <br>
                 <br>
                 <p>Salasana</p>
-                <input type="password" name="password">
+                <input type="password" style="color:black;" name="password">
                 <br>
                 <br>
                 <button type="submit" id="loginButton">Kirjaudu sisään</button></a>
