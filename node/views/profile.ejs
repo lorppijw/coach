@@ -34,36 +34,41 @@
     <section class="lajit">
 
       <section class="sidebar">
+        <h2>Sidebar</h2>
         <ul>
           <li><a href="#"></a><i class="fas fa-home"></i>Home</li>
-          <li class="fas fa-home"><a href="#">Home</a></li>
-          <li class="fas fa-home"><a href="#">Home</a></li>
-          <li class="fas fa-home"><a href="#">Home</a></li>
+          <li><a href="#"></a><i class="fas fa-solid fa-user-group"></i>Asiakkaat</li>
+          <li><a href="#"></a><i class="fas fa-home"></i>Viestit</li>
+          <li><a href="#"></a><i class="fas fa-home"></i>Harjoitukset</li>
+
 
 
         </ul>
       </section>
       <div class="main_content">
-        <div class="laji">
-          <h3> Asiakkaita yhteensä</h3>
-          <h3>0</h3>
-        </div>
-        <div class="laji">
-          <h3>Tulot tässä kuussa</h3>
-          <h3>0 €</h3>
-        </div>
-        <div class="laji">
-          <h3>Uusia asiakkaita</h3>
-          <h3>0</h3>
-        </div>
+        <div class="bigdata">
+          <div class="laji">
+            <h3> Asiakkaita yhteensä</h3>
+            <h3>0</h3>
+          </div>
+          <div class="laji">
+            <h3>Tulot tässä kuussa</h3>
+            <h3>0 €</h3>
+          </div>
+          <div class="laji">
+            <h3>Uusia asiakkaita</h3>
+            <h3>0</h3>
+          </div>
+      </div>
+      <div class="userinfo">
         <div class="new_flex_container">
-      <br>
-      <p>Käyttäjänimi: <%= user.name %><br>
-        Ikä: <%= user.age %><br>
-        Puhelinnumero: <%= user.phone %><br>
-        Laji: <%= user.sport %><br>
-      </p>
-
+        <br>
+        <p>Käyttäjänimi: <%= user.name %><br>
+          Ikä: <%= user.age %><br>
+          Puhelinnumero: <%= user.phone %><br>
+          Laji: <%= user.sport %><br>
+        </p>
+      </div>
         </div>
       </div>
     </section>

@@ -23,12 +23,14 @@
     .lajit {
         display: flex;
         position: relative;
+        /* border-top: 1px solid rgba(0,136,169,0.8); */
     }
     .laji {
+        margin-top: 10px;
         width: 30%;
         padding: 10px;
         text-align: center;
-        background-color: rgba(0,136,169,1);
+        background-color: #edf0f1;
         border: 5px solid rgb(7, 96, 118);
         border-radius: 3px;
         }
@@ -38,6 +40,10 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+.laji h3 {
+    color: rgb(28, 26, 26);
 }
 
 body {
@@ -50,7 +56,7 @@ body {
     position: fixed;
     width: 20%;
     height: 100%;
-    background: #4b4276;
+    background: rgba(0,136,169,0.8);
     padding: 30px 0;
 }
 
@@ -59,6 +65,7 @@ body {
     text-transform: uppercase;
     text-align: center;
     margin-bottom: 30px;
+    margin-top: 0px;
 }
 
 .lajit .sidebar ul li {
@@ -78,7 +85,7 @@ body {
 }
 
 .lajit .sidebar ul li:hover {
-    background: #594f8d;
+    background: rgba(0,136,169,1);
 }
 
 .lajit .sidebar ul li:hover a {
@@ -86,25 +93,36 @@ body {
 }
 
 .lajit .main_content {
-    display: flex;
-    justify-content: space-around;
-    flex: 1;
+    width: 100%;
     margin-left: 20%;
 }
 
+.lajit .main_content .bigdata {
+    display: flex;
+    justify-content: space-around;
+    }
+
 .lajit .laji {
     justify-content: space-between;
-    border: 1px solid white;
+    border: 5px solid #00000008;
+    border-radius: 20px;
+
 }
-.new_flex_container {
+
+  .userinfo {
     display: flex;
-    position: absolute;
-    top: calc(100% + 20px);
-    background:rgb(7, 96, 118);
-    width: 77.5%;
     justify-content: center;
-    border: 1px solid white;
-    padding: 30px 0px;
+  }
+
+  .new_flex_container {
+    padding: 20px;
+    background:rgba(0,136,169,1);
+    width: 100%;
+    margin: 20px;
+    border: 5px solid #00000008;
+    border-radius: 20px;
+    padding: 30px 20px;
+    margin-top: 40px;
   }
 
 li, a, button, h1, h2, h3, h4 footer, p {
@@ -121,12 +139,12 @@ h1 {
     padding-top: 50px;
 }
 
-h2 {
+/* h2 {
     font-size: 36px;
     text-align: center;
     padding-top: 50px;
     padding-bottom: 0px;
-}
+} */
 
 h3 {
     font-size: 24px;
