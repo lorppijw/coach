@@ -92,6 +92,28 @@ app.get('/', async (req, res) => {
     }
 })
 
+app.get('/clients', async (req, res) => {
+    if(req.user){
+        const connection = await db.getConnection();
+        const [results] = await db.query(`SELECT * FROM Users WHERE username = '${req.user.username}';`)
+        const [userlist] = await db.query(`SELECT * FROM Users;`);
+        connection.release();
+        const user = {
+            name : results[0].username,
+            phone : results[0].phoneNumber,
+            age : results[0].age,
+            id : results[0].id,
+            sport : results[0].sport
+        };
+
+        console.log(userlist);
+
+        res.render('clients', {user: user, clients: userlist});
+    } else {
+        res.redirect('/login');
+    }
+})
+
 app.get('/login', (req, res) => {
     if(req.user){
         res.redirect('/');

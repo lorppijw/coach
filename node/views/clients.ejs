@@ -34,10 +34,10 @@
     <section class="lajit">
 
       <section class="sidebar">
-        <h2>Valikko</h2>
+        <h2>Sidebar</h2>
         <ul>
-          <li><a href="#"></a><i class="fas fa-home"></i>Home</li>
-          <li><a href="/clients"><i class="fas fa-solid fa-user-group"></i>Asiakkaat</a></li>
+          <li><a href="/"><i class="fas fa-home"></i>Home</a></li>
+          <li><a href="#"></a><i class="fas fa-solid fa-user-group"></i>Asiakkaat</li>
           <li><a href="#"></a><i class="fas fa-home"></i>Viestit</li>
           <li><a href="#"></a><i class="fas fa-home"></i>Harjoitukset</li>
 
@@ -63,10 +63,28 @@
       <div class="userinfo">
         <div class="new_flex_container">
         <br>
-        <p>Käyttäjänimi: <%= user.name %><br>
-          Ikä: <%= user.age %><br>
-          Puhelinnumero: <%= user.phone %><br>
-          Laji: <%= user.sport %><br>
+        <table class="clientstable">
+          <tr>
+            <th>Kuva</th>
+            <th>Nimi</th>
+            <th>Ikä</th>
+            <th>Laji</th>
+            <th>Puhelinnumero</th>
+            <th>Aloita chat</th>
+          </tr>
+          <% clients.forEach(client => { %>
+            <tr>
+              <td><img class="client-picture" src="person.jpeg"></td>
+              <td><%= client.username %></td>
+              <td><%= client.age %></td>
+              <td><%= client.sport %></td>
+              <td><%= client.phoneNumber %></td>
+              <td><button>Chat</button></td>
+            </tr>
+          <% }); %>
+        </table>
+        </div>
+        </div>
         </p>
       </div>
         </div>
