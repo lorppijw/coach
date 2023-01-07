@@ -6,7 +6,6 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const passport = require('passport')
 const local = require('./strategies/local')
-// const store = new session.MemoryStore();
 const authRoute = require('./routes/auth')
 
 
@@ -71,6 +70,66 @@ app.post('/register', async (req, res) => {
         console.log(err);
         res.status(500).send("Server error<br>" + err)
     }
+})
+
+app.get('/messages', async (req, res) => {
+    if(!req.user){
+        res.redirect('/login');
+    }
+    const connection = await db.getConnection();
+    try {
+        const [results] = await db.query(`SELECT * FROM Users WHERE username = '${req.user.username}';`)
+        const [messages] = await db.query(`SELECT * FROM Messages WHERE recipient = '${req.user.username}';`);
+        const [userlist] = await db.query(`SELECT * FROM Users;`);
+        const [user] = results;
+        res.render('messages', {user: user, messages: messages});
+    } catch (err) {
+        console.log(err);
+    }
+    connection.release();    
+})
+
+app.post('/get-messages', async (req, res) => {
+    if(!req.user){
+        res.redirect('/login');
+    }
+    const connection = await db.getConnection();
+    const [receivedMessages] = await db.query(`SELECT * FROM Messages WHERE recipient = '${req.user.username}'
+    AND sender = '${req.body.sender}';`);
+
+
+    const [sentMessages] = await db.query(`SELECT * FROM Messages WHERE recipient = '${req.body.sender}'
+    AND sender = '${req.user.username}';`);
+
+
+    res.json({receivedMessages, sentMessages});
+})
+
+app.post('/send-message', async (req, res) => {
+    if(!req.user){
+        res.redirect('/login');
+    }
+
+    const messagedata = req.body.message;
+
+    const connection = await db.getConnection();
+
+    //get user to send message to
+    //insert into messages (message, recipient, sender, time)
+    const recipient = messagedata.recipient;
+    const sender = req.user.username;
+    const currentTime = new Date().getTime().toString();
+    const message = messagedata.messagetext;
+
+    const query = 'INSERT INTO Messages (recipient, sender, messagetime, messagetext) VALUES (?, ?, ?, ?)';
+
+    const [results] = await db.execute(query, 
+        [recipient, sender, currentTime, message]);
+
+    connection.release();
+
+
+
 })
 
 app.get('/', async (req, res) => {

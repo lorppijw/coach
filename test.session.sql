@@ -10,6 +10,12 @@ CREATE TABLE Users(
     sport VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE Messages(
+    username VARCHAR(255) PRIMARY KEY NOT NULL UNIQUE,
+    messagetext VARCHAR(3000) NOT NULL,
+    messagetime VARCHAR(255)
+);
+
 
 CREATE DATABASE users;
 

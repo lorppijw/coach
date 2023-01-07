@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chat</title>
+  </head>
+  <body>
+    <h1>Chat</h1>
+    <div id="messages">
+      <% for (let i = 0; i < messages.length; i++) { %>
+        <p><%= messages[i].sender %>: <%= messages[i].messagetext %></p>
+      <% } %>
+    </div>
+    <form id="chat-form">
+      <input id="recipient" type="text" placeholder="Recipient"></input><br>
+      <textarea id="message-input"></textarea>
+      <button type="submit">Send</button>
+    </form>
+
+    <form id="getMessages">
+        <button type="submit">Get messages</button>
+    </form>
+
+
+    <script>
+        document.querySelector('#getMessages').addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const sender = document.querySelector('#recipient').value;
+        try {
+          const response = await fetch('/get-messages', {
+            method: 'POST',
+            body: JSON.stringify({sender}),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          const result = await response.json();
+
+          const receivedMessages = result.receivedMessages;
+          const sentMessages = result.sentMessages;
+
+
+          //if msg id is not unique, don't add message
+            for (let i = 0; i < receivedMessages.length; i++) {
+            let message = receivedMessages[i];
+            let messageElement = document.createElement('p');
+            messageElement.innerText = message.messagetext;
+            document.body.appendChild(messageElement);
+            }
+            for (let i = 0; i < sentMessages.length; i++) {
+            message = sentMessages[i];
+            messageElement = document.createElement('p');
+            messageElement.innerText = message.messagetext;
+            document.body.appendChild(messageElement);
+            }
+
+
+          console.log(result);
+        } catch (error) {
+          console.error(error);
+        }
+        })
+    </script>
+
+
+    <script>
+      document.querySelector('#chat-form').addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const messageInput = document.querySelector('#message-input');
+        const recipient = document.querySelector('#recipient').value;
+        let messagetext = messageInput.value;
+        
+        let message = { 
+            messagetext: messagetext, 
+            recipient: recipient };
+
+        try {
+          const response = await fetch('/send-message', {
+            method: 'POST',
+            body: JSON.stringify({ message }),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          const result = await response.json();
+          console.log(result);
+        } catch (error) {
+          console.error(error);
+        }
+
+      });
+    </script>
+  </body>
+</html>
