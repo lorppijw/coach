@@ -100,7 +100,7 @@ app.post('/get-messages', async (req, res) => {
 
     const [sentMessages] = await db.query(`SELECT * FROM Messages WHERE recipient = '${req.body.sender}'
     AND sender = '${req.user.username}';`);
-
+    connection.release();
 
     res.json({receivedMessages, sentMessages});
 })

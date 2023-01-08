@@ -20,8 +20,16 @@
         <button type="submit">Get messages</button>
     </form>
 
+    <script>
+      let idList = [];
+      let allMessages = [];
+    </script>
 
     <script>
+      //add all received messages to array
+      //add sent messages to same array
+      //order by time
+
         document.querySelector('#getMessages').addEventListener('submit', async (event) => {
         event.preventDefault();
 
@@ -35,30 +43,42 @@
             }
           });
           const result = await response.json();
-
+          console.log(result)
           const receivedMessages = result.receivedMessages;
           const sentMessages = result.sentMessages;
 
+          receivedMessages.forEach(element => {
+            allMessages.push(element)
+          });
+          sentMessages.forEach(element => {
+            allMessages.push(element)
+          });
+
+          allMessages.sort((a, b) => a.messagetime - b.messagetime);
+
+          console.log(allMessages)
+          
+          let id = receivedMessages[0].id;
+          console.log('okok')
 
           //if msg id is not unique, don't add message
-            for (let i = 0; i < receivedMessages.length; i++) {
-            let message = receivedMessages[i];
+            for (let i = 0; i < allMessages.length; i++) {
+            if(idList.includes(allMessages[i].id)){
+              console.log('duplicate')
+
+              continue;
+            }
+            let message = allMessages[i];
             let messageElement = document.createElement('p');
-            messageElement.innerText = message.messagetext;
+            messageElement.innerText = allMessages[i].sender + " : " + message.messagetext;
             document.body.appendChild(messageElement);
+            idList.push(allMessages[i].id)
+            
             }
-            for (let i = 0; i < sentMessages.length; i++) {
-            message = sentMessages[i];
-            messageElement = document.createElement('p');
-            messageElement.innerText = message.messagetext;
-            document.body.appendChild(messageElement);
-            }
-
-
-          console.log(result);
-        } catch (error) {
-          console.error(error);
+        } catch (err) {
+          console.log(err);
         }
+
         })
     </script>
 
