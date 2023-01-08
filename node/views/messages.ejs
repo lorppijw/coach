@@ -20,6 +20,9 @@
         <button type="submit">Get messages</button>
     </form>
 
+    <script>
+      let idList = [];
+    </script>
 
     <script>
         document.querySelector('#getMessages').addEventListener('submit', async (event) => {
@@ -35,30 +38,44 @@
             }
           });
           const result = await response.json();
-
+          console.log(result)
           const receivedMessages = result.receivedMessages;
           const sentMessages = result.sentMessages;
-
+          let id = receivedMessages[0].id;
+          console.log('okok')
 
           //if msg id is not unique, don't add message
             for (let i = 0; i < receivedMessages.length; i++) {
+            if(idList.includes(receivedMessages[i].id)){
+              console.log('duplicate')
+
+              continue;
+            }
             let message = receivedMessages[i];
             let messageElement = document.createElement('p');
-            messageElement.innerText = message.messagetext;
+            messageElement.innerText = sender + " : " + message.messagetext;
             document.body.appendChild(messageElement);
+            idList.push(receivedMessages[i].id)
+            
             }
             for (let i = 0; i < sentMessages.length; i++) {
+              if(idList.includes(sentMessages[i].id)){
+              console.log('duplicate')
+
+              continue;
+            }
+            console.log(sentMessages[i].id)
+            console.log(idList)
             message = sentMessages[i];
             messageElement = document.createElement('p');
-            messageElement.innerText = message.messagetext;
+            messageElement.innerText = "<%= user.username %>" + " : " + message.messagetext;
             document.body.appendChild(messageElement);
+            idList.push(sentMessages[i].id)
             }
-
-
-          console.log(result);
-        } catch (error) {
-          console.error(error);
+        } catch (err) {
+          console.log(err);
         }
+
         })
     </script>
 
